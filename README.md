@@ -16,3 +16,5 @@ Requirements:
 - Python 3.x
 - numpy
 - matplotlib
+
+The model will output a graph showing minimum detectable transit depth on a transit depth vs. magnitude graph. Any targets that fall above the blue line and outside of the red bar should be detectable with your equipment. 
