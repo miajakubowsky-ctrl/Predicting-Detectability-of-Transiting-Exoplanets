@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import erf
 
-# ----------------- Inputs -----------------
+# ----------------- Inputs (USERS MUST EDIT THESE) -----------------
 D = 0.127  # telescope aperture in meters
 QE = 0.8
 exposure_time = 45  # seconds (change to test)
