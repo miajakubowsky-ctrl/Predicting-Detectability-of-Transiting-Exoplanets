@@ -1,3 +1,8 @@
+"""
+Transit detection limit model for a small-aperture telescope.
+Author: Mia Jakubowsky
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 from math import erf
