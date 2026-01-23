@@ -27,20 +27,16 @@ fwhm_optimistic = 8   # BROAD PSF (optimistic: less concentrated -> fewer satura
 fwhm_pessimistic = 5  # TIGHT PSF (pessimistic: more concentrated -> more saturation)
 magnitudes = np.linspace(6, 15, 300)
 
-# ----------------- Derived -----------------
+# ----------------- Calculated variables -----------------
 A = np.pi * (D / 2) ** 2  # collecting area (m^2)
 n_pix_aperture = np.pi * aperture_radius_pix**2
 dark_current = dark_current_rate * exposure_time  # e-/pix for exposure
 
 # ----------------- PSF fraction function -----------------
 def central_pixel_fraction(fwhm_px: float) -> float:
-    """Fraction of a 2D Gaussian's total flux that lands in the central pixel
-    when the star is centered on that pixel."""
     sigma = fwhm_px / (2.0 * np.sqrt(2.0 * np.log(2.0)))
     a = 0.5 / (np.sqrt(2.0) * sigma)
     return erf(a) ** 2
-
-# ----------------- Optimistic vs Pessimistic (make sure optimistic is BROADER) ----
 
 alpha_opt = central_pixel_fraction(fwhm_optimistic)
 alpha_pess = central_pixel_fraction(fwhm_pessimistic)
@@ -48,8 +44,6 @@ alpha_pess = central_pixel_fraction(fwhm_pessimistic)
 # ----------------- Photon model -----------------
 E_phot = (6.63e-27 * 2.998e10) / (eff * 1e-8)  # erg per photon
 PFD = (vega_zp / E_phot) * weff * 10000  # photons/m^2/s for 0-mag star
-
-
 flux0 = PFD * QE * A * exposure_time            # electrons for a 0-mag star
 N_star = flux0 * 10**(-0.4 * magnitudes)         # total star electrons in aperture
 
