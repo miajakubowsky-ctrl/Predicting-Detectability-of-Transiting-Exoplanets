@@ -7,10 +7,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import erf
 
-# ----------------- Inputs (USERS MUST EDIT THESE) -----------------
+# ----------------- Inputs -----------------
 D = 0.127  # telescope aperture in meters
+altitude = 0.5 # altitude in meters
+airmass = 1.2
 QE = 0.8
-exposure_time = 45  # seconds (change to test)
+exposure_time = 45  # seconds
 read_noise = 1.5  # electrons per pixel
 sky_brightness = 20.29  # mag/arcsec^2
 pixel_scale = 0.81  # arcsec/pixel
@@ -60,7 +62,9 @@ sky_per_pixel = sky_flux_density * QE * A * exposure_time * (pixel_scale**2)
 # noise
 read_noise_total_var = (read_noise ** 2) * n_pix_aperture
 dc_total = dark_current * n_pix_aperture
-noise_total = np.sqrt(N_star + N_sky + dc_total + read_noise_total_var)
+scint_frac = 0.00419 * D**(-2/3) * airmass**1.75 * np.exp(-altitude / 8000) * exposure_time**(-0.5)
+scint_noise = scint_frac * N_star
+noise_total = np.sqrt(N_star + N_sky + dc_total + read_noise_total_var + scint_noise**2)
 
 # SNR and min detectable depth
 snr_single = N_star / noise_total
